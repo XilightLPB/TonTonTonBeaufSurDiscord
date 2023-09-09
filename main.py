@@ -102,12 +102,25 @@ webhook_url2 = webhooks[0]
 
 
 ##Getting the jokes stored in "Jokes.txt" and importing them in JokesRepo that will contain each jokes in a different element
-JokesRepo = []
-ManualParsingOfJokes("Jokes.txt",JokesRepo)
+##JokesRepo = []
+##ManualParsingOfJokes("Jokes.txt",JokesRepo)
 ##ReadJokesInOrder(JokesRepo)
-ReadmeAJoke(JokesRepo)
-message = FormatARandomJoke(JokesRepo)
-PostAMessage(message)
+##ReadmeAJoke(JokesRepo)
+##message = FormatARandomJoke(JokesRepo)
+##PostAMessage(message)
 
+
+while True:
+   hour = datetime.now()
+   onlymin = hour.strftime("%M")
+   print(str(onlymin))
+   if int(onlymin)%60 == 0:
+      ManualParsingOfJokes("Jokes.txt",JokesRepo)
+      message = FormatARandomJoke(JokesRepo)
+      PostAMessage(message)
+   print("Gonna go to sleep now")
+   NextTime = 60 - int(onlymin)
+   print("Next joke in " + str(NextTime))
+   time.sleep(60)
 
 
