@@ -61,13 +61,14 @@ def OpenAndParseConfig(webhooks):
     f = open("config.txt")
     step = 1
     for x in f:
+        stripped = x.strip()
         if step == 1:
-            if x == "NEXT":
-                step =2
-                print("Anyway moving on (that's a spearshot ref)")
+            if stripped != "NEXT":
+                webhooks.append(stripped)
+                ##print(stripped)
             else:
-                webhooks.append(x.strip())
-                print(x.strip)
+                step = 2
+                ##print("Anyway moving on (that's a spearshot ref)")
 
 
     f.close()

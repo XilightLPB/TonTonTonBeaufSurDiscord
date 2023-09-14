@@ -65,7 +65,7 @@ def singletest():
 
 
 ##Post the message, and got a default message explicitly stating that you forgot that data
-def PostAMessage(message =None):
+def PostAMessage(message =None, webhookurl = None):
    if message == None:
       message = "Vu que jsuis stupide j'ai oublié de dire quel message je voulais envoyer :skull:"
    data = {
@@ -75,28 +75,29 @@ def PostAMessage(message =None):
       "content": message,
       
 }
-   r2 = requests.post(webhook_url2, data=json.dumps(data), headers={'Content-Type': 'application/json'})
+   r2 = requests.post(webhookurl, data=json.dumps(data), headers={'Content-Type': 'application/json'})
    print("test unitaire effectué")
    return 0
 
+def PostEverywhere(message = None, webhooksList = None):
+   i = 0
+   for x in webhooksList:
+      i+=1
+      print("webhook: " + str(i))
+      PostAMessage(message, x)
 
 ##Just Checking the code did run without any issue when it comes to import or something and printing the hour to let us know (can be transformed into a log function quite easily)
 print("well the code did run")
-time.sleep(0)
-print("d'ailleurs il est actuellement:")
-hour = datetime.now()
-print(hour)
-onlyhourandmin = hour.strftime("%H:%M")
-onlyhour= hour.strftime("%H")
-print(onlyhourandmin)
-print(onlyhour)
-webhooks = []
+
+
 
 
 
 ##Import configs informations such as differents webhooks
+webhooks = []
 OpenAndParseConfig(webhooks)
 webhook_url2 = webhooks[0]
+print(webhook_url2)
 
 ##singletest() function used to print a simple message with no configuration, good to verify that your listener is active
 
@@ -109,18 +110,24 @@ webhook_url2 = webhooks[0]
 ##message = FormatARandomJoke(JokesRepo)
 ##PostAMessage(message)
 
+def main():
+   while True:
+      hour = datetime.now()
+      onlymin = hour.strftime("%M")
+      print(str(onlymin))
+      if int(onlymin)%60 == 0:
+         ManualParsingOfJokes("Jokes.txt",JokesRepo)
+         message = FormatARandomJoke(JokesRepo)
+         PostAMessage(message)
+      print("Gonna go to sleep now")
+      NextTime = 60 - int(onlymin)
+      print("Next joke in " + str(NextTime))
+      time.sleep(60)
 
-while True:
-   hour = datetime.now()
-   onlymin = hour.strftime("%M")
-   print(str(onlymin))
-   if int(onlymin)%60 == 0:
-      ManualParsingOfJokes("Jokes.txt",JokesRepo)
-      message = FormatARandomJoke(JokesRepo)
-      PostAMessage(message)
-   print("Gonna go to sleep now")
-   NextTime = 60 - int(onlymin)
-   print("Next joke in " + str(NextTime))
-   time.sleep(60)
 
+def testthings():
+   ##loading the config:
+   for x in webhooks:
+      print(x)
 
+testthings()
