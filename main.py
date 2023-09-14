@@ -99,6 +99,7 @@ print("well the code did run")
 webhooks = []
 username = ""
 username = OpenAndParseConfig(webhooks, username)
+##Issues to fix: username wasn't returned cause it's not a structure, maybe making a list of parameter actually usefull and then return them would be better
 print("username now is: " + username)
 
 
