@@ -58,19 +58,22 @@ def singletest():
       "content": message,
       
 }
-   r2 = requests.post(webhook_url2, data=json.dumps(data), headers={'Content-Type': 'application/json'})
+   r2 = requests.post(webhooks[0], data=json.dumps(data), headers={'Content-Type': 'application/json'})
    print("test unitaire effectué")
    return 0
 
 
 
 ##Post the message, and got a default message explicitly stating that you forgot that data
-def PostAMessage(message =None, webhookurl = None):
+def PostAMessage(message =None, webhookurl = None, username = None):
    if message == None:
       message = "Vu que jsuis stupide j'ai oublié de dire quel message je voulais envoyer :skull:"
+   if username == None:
+      print("no username")
+      username = "J'ai oublié le nom"
    data = {
       
-      "username": "Mon Bot à moi",
+      "username": username,
       "avatar_url": "https://i.imgur.com/p5xqgq3.png",
       "content": message,
       
@@ -79,12 +82,12 @@ def PostAMessage(message =None, webhookurl = None):
    print("test unitaire effectué")
    return 0
 
-def PostEverywhere(message = None, webhooksList = None):
+def PostEverywhere(message = None, webhooksList = None, username = "Pas de nom"):
    i = 0
    for x in webhooksList:
       i+=1
       print("webhook: " + str(i))
-      PostAMessage(message, x)
+      PostAMessage(message, x, username)
 
 ##Just Checking the code did run without any issue when it comes to import or something and printing the hour to let us know (can be transformed into a log function quite easily)
 print("well the code did run")
@@ -95,16 +98,17 @@ print("well the code did run")
 
 ##Import configs informations such as differents webhooks
 webhooks = []
-OpenAndParseConfig(webhooks)
-webhook_url2 = webhooks[0]
-print(webhook_url2)
+username = ""
+OpenAndParseConfig(webhooks, username)
+
 
 ##singletest() function used to print a simple message with no configuration, good to verify that your listener is active
 
 
 ##Getting the jokes stored in "Jokes.txt" and importing them in JokesRepo that will contain each jokes in a different element
-##JokesRepo = []
-##ManualParsingOfJokes("Jokes.txt",JokesRepo)
+JokesRepo = []
+ManualParsingOfJokes("Jokes.txt",JokesRepo)
+
 ##ReadJokesInOrder(JokesRepo)
 ##ReadmeAJoke(JokesRepo)
 ##message = FormatARandomJoke(JokesRepo)
@@ -127,7 +131,16 @@ def main():
 
 def testthings():
    ##loading the config:
-   for x in webhooks:
-      print(x)
+
+
+   ##checking up the config:
+   #print ("list of webhooks:")
+   #printlistofwebhooks(webhooks)
+   ##toying with messages
+   ManualParsingOfJokes("Jokes.txt",JokesRepo)
+   message = FormatARandomJoke(JokesRepo)
+   PostEverywhere(message, webhooks, username)
+   ##end of posts
+   return 0
 
 testthings()

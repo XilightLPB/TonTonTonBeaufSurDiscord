@@ -57,7 +57,7 @@ def FormatARandomJoke(JokesRepo):
 
 
 ##Extract datas from the Config file
-def OpenAndParseConfig(webhooks):
+def OpenAndParseConfig(webhooks,username):
     f = open("config.txt")
     step = 1
     for x in f:
@@ -69,12 +69,19 @@ def OpenAndParseConfig(webhooks):
             else:
                 step = 2
                 ##print("Anyway moving on (that's a spearshot ref)")
+        elif step == 2:
+            if stripped != "NEXT":
+                username = stripped
+                ##print(stripped)
+            else:
+                step = 2
+                ##print("Anyway moving on (that's a spearshot ref) step number 2")
 
 
     f.close()
 
 
-ManualParsingOfJokes("test.txt",JokesRepo)
+##ManualParsingOfJokes("test.txt",JokesRepo)
 ##ReadJokesInOrder(JokesRepo)
 ##ReadmeAJoke(JokesRepo)
-FormatARandomJoke(JokesRepo)
+##FormatARandomJoke(JokesRepo)
