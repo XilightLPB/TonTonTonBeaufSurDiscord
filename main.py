@@ -68,9 +68,7 @@ def singletest():
 def PostAMessage(message =None, webhookurl = None, username = None):
    if message == None:
       message = "Vu que jsuis stupide j'ai oublié de dire quel message je voulais envoyer :skull:"
-   if username == None:
-      print("no username")
-      username = "J'ai oublié le nom"
+   #print("username: "+username)
    data = {
       
       "username": username,
@@ -79,14 +77,15 @@ def PostAMessage(message =None, webhookurl = None, username = None):
       
 }
    r2 = requests.post(webhookurl, data=json.dumps(data), headers={'Content-Type': 'application/json'})
-   print("test unitaire effectué")
+   #print("test unitaire effectué")
    return 0
 
 def PostEverywhere(message = None, webhooksList = None, username = "Pas de nom"):
    i = 0
    for x in webhooksList:
       i+=1
-      print("webhook: " + str(i))
+      #print("webhook: " + str(i))
+      #print("username: " + username)
       PostAMessage(message, x, username)
 
 ##Just Checking the code did run without any issue when it comes to import or something and printing the hour to let us know (can be transformed into a log function quite easily)
@@ -99,7 +98,8 @@ print("well the code did run")
 ##Import configs informations such as differents webhooks
 webhooks = []
 username = ""
-OpenAndParseConfig(webhooks, username)
+username = OpenAndParseConfig(webhooks, username)
+print("username now is: " + username)
 
 
 ##singletest() function used to print a simple message with no configuration, good to verify that your listener is active

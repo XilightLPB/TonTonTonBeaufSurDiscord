@@ -52,7 +52,7 @@ def FormatARandomJoke(JokesRepo):
     i = random.randint(0,(len(JokesRepo)-1))
     (res, Answer) = JokesRepo[i]
     res = res + "||" + Answer.strip() + "||"
-    print(res)
+    #print(res)
     return res
 
 
@@ -72,9 +72,11 @@ def OpenAndParseConfig(webhooks,username):
         elif step == 2:
             if stripped != "NEXT":
                 username = stripped
-                ##print(stripped)
+                print("username is supposed to be:")
+                print(stripped)
+                return username
             else:
-                step = 2
+                step = 3
                 ##print("Anyway moving on (that's a spearshot ref) step number 2")
 
 
